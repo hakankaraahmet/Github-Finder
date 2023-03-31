@@ -1,12 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const config = {
+  headers: {
+    Authorization: `Token ${process.env.NEXT_PUBLIC_GITHUB_REPO_TOKEN}`,
+  },
+};
+
 export const fetchReposAction: any = createAsyncThunk(
   "repos/list",
   async (user: any, { rejectWithValue, getState, dispatch }: any) => {
     try {
       const { data } = await axios.get(
-        `https://api.github.com/users/${user}/repos?per_page=700&sort=asc`
+        `https://api.github.com/users/${user}/repos?per_page=700&sort=asc`,
+        config
       );
       return data;
     } catch (error: any) {
@@ -22,7 +29,10 @@ export const fetchProfileAction: any = createAsyncThunk(
   "profile/list",
   async (user: any, { rejectWithValue, getState, dispatch }: any) => {
     try {
-      const { data } = await axios.get(`https://api.github.com/users/${user}`);
+      const { data } = await axios.get(
+        `https://api.github.com/users/${user}`,
+        config
+      );
       return data;
     } catch (error: any) {
       if (!error?.response) {
