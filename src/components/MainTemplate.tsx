@@ -7,11 +7,13 @@ import {
 
 const MainTemplate = () => {
   const [user, setUser] = useState<string>("");
+  const [isSearched,setIsSearched] = useState<boolean>(false)
   const dispatch = useDispatch();
 
   const handleSearch = () => {
     dispatch(fetchReposAction(user));
     dispatch(fetchProfileAction(user));
+    setIsSearched(true)
   };
 
   const store = useSelector((state: any) => state?.repos);
@@ -42,7 +44,7 @@ const MainTemplate = () => {
                 type="text"
                 name="email"
                 id="email"
-                className="shadow-sm text-center focus:ring-indigo-500 p-2 focus:border-indigo-500  sm:text-sm border-gray-300 w-full rounded-md lg:w-1/2"
+                className="shadow-sm text-center focus:ring-indigo-500 p-2 focus:border-indigo-500  sm:text-sm border-gray-300 w-full rounded-md lg:w-1/2 text-xl font-bold text-gray-900"
                 placeholder="Search For User"
               />
               <button
@@ -62,7 +64,7 @@ const MainTemplate = () => {
             <h2 className="text-red-300 text-3xl text-center">
               {error?.data.message}
             </h2>
-          ) : (
+          ) : isSearched ? (
             <div className="max-w-4xl mx-auto">
               <div className="flex flex-wrap -mx-4 mb-20">
                 <div className="w-full lg:w-1/2 px-4 mb-4 lg:mb-0">
@@ -177,7 +179,7 @@ const MainTemplate = () => {
                 </div>
               </div>
             </div>
-          )}
+          ): ""}
         </div>
       </section>
     </div>
